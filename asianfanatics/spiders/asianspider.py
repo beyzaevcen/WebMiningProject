@@ -18,7 +18,8 @@ class AsianspiderSpider(scrapy.Spider):
        
 
         for product in products:
-            if product.css('a::text').get() is None:
+            item_name = product.css('a::text').get() 
+            if not item_name:
                 continue
 
             yield {
