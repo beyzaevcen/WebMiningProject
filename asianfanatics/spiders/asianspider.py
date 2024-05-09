@@ -4,10 +4,11 @@ class AsianspiderSpider(scrapy.Spider):
     name = "asianspider"
     allowed_domains = ["asyafanatiklerim.com"]
 
-    start_urls = ["https://asyafanatiklerim.com/tur/macera","https://asyafanatiklerim.com/tur/romantik","https://asyafanatiklerim.com/tur/dram","https://asyafanatiklerim.com/tur/aile","https://asyafanatiklerim.com/tur/aksiyon","https://asyafanatiklerim.com/tur/fantastik","https://asyafanatiklerim.com/tur/genclik","https://asyafanatiklerim.com/tur/gerilim","https://asyafanatiklerim.com/tur/gizem","https://asyafanatiklerim.com/tur/hukuk","https://asyafanatiklerim.com/tur/komedi","https://asyafanatiklerim.com/tur/medikal","https://asyafanatiklerim.com/tur/polisiye","https://asyafanatiklerim.com/tur/tarih"]
+    #start_urls = ["https://asyafanatiklerim.com/tur/macera","https://asyafanatiklerim.com/tur/romantik","https://asyafanatiklerim.com/tur/dram","https://asyafanatiklerim.com/tur/aile","https://asyafanatiklerim.com/tur/aksiyon","https://asyafanatiklerim.com/tur/fantastik","https://asyafanatiklerim.com/tur/genclik","https://asyafanatiklerim.com/tur/gerilim","https://asyafanatiklerim.com/tur/gizem","https://asyafanatiklerim.com/tur/hukuk","https://asyafanatiklerim.com/tur/komedi","https://asyafanatiklerim.com/tur/medikal","https://asyafanatiklerim.com/tur/polisiye","https://asyafanatiklerim.com/tur/tarih"]
     
 
-    start_urls = ["https://asyafanatiklerim.com/tur/romantik"]
+    types = ["hukuk", "romantik", "macera", "aile"]
+    start_urls = ["https://asyafanatiklerim.com/tur/" + type_value for type_value in types]
 
 
     def parse(self, response):
