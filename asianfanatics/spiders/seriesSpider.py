@@ -1,5 +1,7 @@
 import scrapy
 import pandas as pd
+import time
+import random
 
 class SeriesspiderSpider(scrapy.Spider):
     name = "seriesSpider"
@@ -10,6 +12,8 @@ class SeriesspiderSpider(scrapy.Spider):
         url_list = df["url"].str.strip()
 
         for url in url_list:
+            wait_time = random.uniform(3, 7)
+            time.sleep(wait_time)
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
@@ -24,7 +28,6 @@ class SeriesspiderSpider(scrapy.Spider):
                 "caracter": person.css("div.data div.caracter::text").get() 
             }
             cast_list.append(actor_dict)
-
         yield {
             "name": content.css("div.data h1::text").get(),
             "full_date": content.css("span.date::text").get(),
