@@ -6,7 +6,11 @@
 import scrapy
 
 
-class AsianfanaticsItem(scrapy.Item):
+class AsianSeries(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+
+    name = scrapy.Field()
+    rating = scrapy.Field()
+    year = scrapy.Field()
+    url = scrapy.Field()

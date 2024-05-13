@@ -1,6 +1,7 @@
 import scrapy
-import pandas as pd
 import numpy as np
+import time
+import random
 
 
 class YearsspiderSpider(scrapy.Spider):
@@ -13,6 +14,8 @@ class YearsspiderSpider(scrapy.Spider):
     def start_requests(self):
         url = "https://asyafanatiklerim.com/yil/"
         for base in self.bases:
+            wait_time = random.uniform(3, 5)
+            time.sleep(wait_time)
             yield scrapy.Request(url + str(base), callback=self.parse)
 
     def parse(self, response):
@@ -26,7 +29,7 @@ class YearsspiderSpider(scrapy.Spider):
             yield {
                 'name': product.css('a::text').get(),
                 'rating': product.css('div.poster div.rating::text').get(),
-                'year': product.css('div.data span').get().replace("<span>", "").replace("</span>", ""),
+                'year': product.css('div.data h3 + span::text').get(),
                 'url': product.css('h3 a::attr(href)').get()
             }
 

@@ -25,3 +25,49 @@ class TypesSpider(scrapy.Spider):
         if next_page:
             yield response.follow(next_page, callback=self.parse)
 
+
+
+
+import scrapy
+from asianfanatics.items import AsianSeries
+import pandas as pd
+import numpy as np
+
+
+class YearsspiderSpider(scrapy.Spider):
+    name = "yearsspider"
+    allowed_domains = ["asyafanatiklerim.com"]
+    bases = np.arange(2010, 2025)
+    #start_urls = ["https://asyafanatiklerim.com/yil/2010/"]
+
+
+    def start_requests(self):
+        url = "https://asyafanatiklerim.com/yil/"
+        for base in self.bases:
+            yield scrapy.Request(url + str(base), callback=self.parse)
+
+    def parse(self, response):
+        products = response.css('article')
+
+        product_item = AsianSeries()
+
+        for product in products:
+            item_name = product.css('a::text').get() 
+            if not item_name:
+                continue
+
+            product_item['name'] = product.css('a::text').get(),
+            product_item["rating"] = product.css('div.poster div.rating::text').get(),
+            product_item["year"] = product.css('div.data h3 + span::text').get().replace("<span>", "").replace("</span>", ""),
+            product_item["url"] = product.css('h3 a::attr(href)').get()
+            yield product_item
+
+        next_page = response.css('div.pagination a.arrow_pag:last-of-type').attrib.get('href')
+        next_pages = response.css('div.pagination a.inactive::attr(href)').getall()
+
+        if next_page:
+            yield response.follow(next_page, callback=self.parse)
+        else:
+            for next_page2 in next_pages:
+                yield response.follow(next_page2, callback=self.parse)
+
