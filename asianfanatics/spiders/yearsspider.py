@@ -8,13 +8,11 @@ class YearsspiderSpider(scrapy.Spider):
     name = "yearsspider"
     allowed_domains = ["asyafanatiklerim.com"]
     bases = np.arange(2010, 2025)
-    #start_urls = ["https://asyafanatiklerim.com/yil/2010/"]
-
 
     def start_requests(self):
         url = "https://asyafanatiklerim.com/yil/"
         for base in self.bases:
-            wait_time = random.uniform(3, 5)
+            wait_time = random.uniform(3, 7)
             time.sleep(wait_time)
             yield scrapy.Request(url + str(base), callback=self.parse)
 
